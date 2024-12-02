@@ -21,9 +21,9 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
         pipeline_options.do_table_structure = True
         pipeline_options.table_structure_options.do_cell_matching = True
 
-        # Configure device
+        # Configure device and pipeline options
         device = "mps" if torch.backends.mps.is_available() else "cpu"
-        pipeline_options.device = device
+        pipeline_options.model_config.device = device
         
         # Initialize document converter
         doc_converter = DocumentConverter(
