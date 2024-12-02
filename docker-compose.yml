@@ -1,19 +1,54 @@
 version: '3.8'
 
 services:
-  docling:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  docling-cpu:
+    image: ghcr.io/sistemica/docling-service:latest
     ports:
       - "8000:8000"
-    volumes:
-      - ./app:/app/app
     environment:
       - PYTHONPATH=/app
+      - DEVICE=cpu
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  docling-gpu:
+    image: ghcr.io/sistemica/docling-service:latest
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app
+      - DEVICE=cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  docling-mps:
+    image: ghcr.io/sistemica/docling-service:latest
+    platform: linux/arm64
+    ports:
+      - "8002:8000"
+    environment:
+      - PYTHONPATH=/app
+      - DEVICE=mps
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/docs"]
       interval: 30s
       timeout: 10s
       retries: 3
