@@ -87,6 +87,26 @@ The service is built with:
 - Python 3.11
 - Docker for containerization
 
+### GitHub Actions Workflow
+
+The repository includes a GitHub Actions workflow that automatically builds and publishes the Docker image to GitHub Container Registry (GHCR). To enable this workflow:
+
+1. Go to your repository settings on GitHub
+2. Navigate to "Actions" → "General"
+3. Under "Workflow permissions", select "Read and write permissions"
+4. Save the changes
+
+The workflow will:
+- Build the Docker image on every push to main and pull requests
+- Push the image to GHCR when changes are merged to main
+- Create versioned tags when you push version tags (e.g., v1.0.0)
+
+To create a versioned release:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
 ## License
 
 [MIT License](LICENSE)
