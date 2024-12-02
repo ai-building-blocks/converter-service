@@ -1,4 +1,5 @@
 import tempfile
+import torch
 from pathlib import Path
 from fastapi import UploadFile
 from docling.datamodel.base_models import InputFormat
@@ -20,11 +21,15 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
         pipeline_options.do_table_structure = True
         pipeline_options.table_structure_options.do_cell_matching = True
 
+        # Configure device
+        device = "mps" if torch.backends.mps.is_available() else "cpu"
+        
         # Initialize document converter
         doc_converter = DocumentConverter(
             format_options={
                 InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
-            }
+            },
+            device=device
         )
 
         # Convert document
