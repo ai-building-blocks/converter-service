@@ -30,8 +30,16 @@ cd docling-service
 ```
 
 2. Build and run the Docker container:
+
+For Intel/AMD (x86_64):
 ```bash
-docker build -t docling-service .
+docker build --platform linux/amd64 -t docling-service .
+docker run -p 8000:8000 docling-service
+```
+
+For Apple Silicon (M1/M2):
+```bash
+docker build --platform linux/arm64 -t docling-service .
 docker run -p 8000:8000 docling-service
 ```
 
