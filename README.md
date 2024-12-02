@@ -14,6 +14,15 @@ A FastAPI web service for converting documents to markdown using docling. This s
 
 ### Using Docker (Recommended)
 
+#### Option 1: Pull from GitHub Container Registry
+
+```bash
+docker pull ghcr.io/hannes-sistemica/docling-service:latest
+docker run -p 8000:8000 ghcr.io/hannes-sistemica/docling-service:latest
+```
+
+#### Option 2: Build Locally
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/hannes-sistemica/docling-service.git
