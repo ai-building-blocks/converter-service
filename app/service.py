@@ -23,7 +23,7 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
 
         # Configure device and pipeline options
         device = "mps" if torch.backends.mps.is_available() else "cpu"
-        pipeline_options.model_config.device = device
+        pipeline_options.model_config = {"device": device}
         
         # Initialize document converter
         doc_converter = DocumentConverter(
