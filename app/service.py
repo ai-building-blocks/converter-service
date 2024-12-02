@@ -23,13 +23,13 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
 
         # Configure device
         device = "mps" if torch.backends.mps.is_available() else "cpu"
+        pipeline_options.device = device
         
         # Initialize document converter
         doc_converter = DocumentConverter(
             format_options={
                 InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
-            },
-            device=device
+            }
         )
 
         # Convert document
