@@ -87,6 +87,37 @@ The service is built with:
 - Python 3.11
 - Docker for containerization
 
+### GPU Support
+
+The document conversion process can be accelerated using GPU support. You might see this message during execution:
+```
+neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.
+```
+
+To enable GPU acceleration:
+
+#### For NVIDIA GPUs (CUDA):
+1. Install NVIDIA drivers for your GPU
+2. Install CUDA Toolkit from [NVIDIA's website](https://developer.nvidia.com/cuda-downloads)
+3. When running with Docker, use NVIDIA Container Toolkit:
+```bash
+# Install NVIDIA Container Toolkit
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+
+# Run the container with GPU support
+docker run --gpus all -p 8000:8000 ghcr.io/hannes-sistemica/docling-service:latest
+```
+
+#### For Apple Silicon (MPS):
+The Metal Performance Shaders (MPS) backend is automatically used on Apple Silicon Macs when available. No additional setup is required.
+
+Note: If neither CUDA nor MPS is available, the service will continue to work using CPU, just at a slower speed.
+
 ### GitHub Actions Workflow
 
 The repository includes a GitHub Actions workflow that automatically builds and publishes the Docker image to GitHub Container Registry (GHCR). To enable this workflow:
