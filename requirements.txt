@@ -1,7 +1,7 @@
 fastapi==0.103.2
 python-multipart==0.0.6
 uvicorn==0.24.0
-docling==2.3.8
+docling==2.8.3
 torch>=2.1.0
 pydantic>=2.0.3,<3.0.0
 pydantic-core>=2.3.0,<3.0.0
