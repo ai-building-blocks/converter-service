@@ -2,9 +2,8 @@ import tempfile
 import torch
 from pathlib import Path
 from fastapi import UploadFile
-from docling.datamodel.base_models import InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions
-from docling.document_converter import DocumentConverter, PdfFormatOption
+from docling.document_converter import DocumentConverter
 from .models import ConversionResponse
 
 async def convert_document(file: UploadFile) -> ConversionResponse:
@@ -29,11 +28,7 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
         pipeline_options.table_structure_options.do_cell_matching = True
         
         # Initialize document converter
-        doc_converter = DocumentConverter(
-            format_options={
-                InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
-            }
-        )
+        doc_converter = DocumentConverter()
 
         # Convert document
         conv_result = doc_converter.convert(temp_path)
