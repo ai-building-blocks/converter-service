@@ -1,7 +1,9 @@
 import tempfile
 from pathlib import Path
 from fastapi import UploadFile
-from docling import DocumentConverter
+from docling.datamodel.base_models import InputFormat
+from docling.document_converter import DocumentConverter, PdfFormatOption
+from docling.datamodel.pipeline_options import PdfPipelineOptions, TableFormerMode
 from .models import ConversionResponse
 
 async def convert_document(file: UploadFile) -> ConversionResponse:
@@ -12,14 +14,23 @@ async def convert_document(file: UploadFile) -> ConversionResponse:
         temp_path = Path(temp_file.name)
 
     try:
-        # Initialize document converter
-        doc_converter = DocumentConverter()
+        # Configure pipeline options
+        pipeline_options = PdfPipelineOptions(do_table_structure=True)
+        pipeline_options.table_structure_options.mode = TableFormerMode.ACCURATE
+        pipeline_options.table_structure_options.do_cell_matching = True
+
+        # Initialize document converter with options
+        doc_converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
+            }
+        )
 
         # Convert document
         result = doc_converter.convert(temp_path)
 
         # Get markdown output
-        markdown_content = result.to_markdown()
+        markdown_content = result.document.export_to_markdown()
         
         return ConversionResponse(
             filename=file.filename,
