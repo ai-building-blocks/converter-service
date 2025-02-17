@@ -17,15 +17,15 @@ A FastAPI web service for converting documents to markdown using docling. This s
 #### Option 1: Pull from GitHub Container Registry
 
 ```bash
-docker pull ghcr.io/sistemica/docling-service:latest
-docker run -p 8000:8000 ghcr.io/sistemica/docling-service:latest
+docker pull ghcr.io/ai-building-blocks/converter-service:latest
+docker run -p 8000:8000 ghcr.io/ai-building-blocks/converter-service:latest
 ```
 
 #### Option 2: Build Locally
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/sistemica/docling-service.git
+git clone https://github.com/ai-building-blocks/converter-service.git
 cd docling-service
 ```
 
@@ -33,21 +33,21 @@ cd docling-service
 
 For Intel/AMD (x86_64):
 ```bash
-docker build --platform linux/amd64 -t docling-service .
-docker run -p 8000:8000 docling-service
+docker build --platform linux/amd64 -t converter-service .
+docker run -p 8000:8000 converter-service
 ```
 
 For Apple Silicon (M1/M2):
 ```bash
-docker build --platform linux/arm64 -t docling-service .
-docker run -p 8000:8000 docling-service
+docker build --platform linux/arm64 -t converter-service .
+docker run -p 8000:8000 converter-service
 ```
 
 ### Manual Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/hannes-sistemica/docling-service.git
+git clone https://github.com/ai-building-blocks/converter-service.git
 cd docling-service
 ```
 
